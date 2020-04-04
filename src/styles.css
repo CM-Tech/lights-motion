@@ -1,15 +1,17 @@
 body {
-  font-family: sans-serif;
+    font-family: sans-serif;
 }
+
 html,
 body {
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
 }
-#game-canvas {
-  border: 1px solid rgb(0, 0, 0);
-  background: black;
-  cursor: none;
-  width: 100%;
+
+#canvas {
+    border: 1px solid rgb(0, 0, 0);
+    background: black;
+    cursor: none;
+    width: 100%;
 }
