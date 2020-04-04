@@ -3,13 +3,13 @@ import "./styles.css";
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var s = 4;
-var P = 0.4; //0.33333;
+var P = 0.25; //0.33333;
 var mouse = { x: 0, y: 0, down: false };
 var noGo = false;
-var stringLength = 32;
-var stringMinSpeed = 0.5;
-var stringMaxSpeed = 0.6;
-var stringsCount = 16 * 2;
+var stringLength = 16;
+var stringMinSpeed = 0.25;
+var stringMaxSpeed = 0.75;
+var stringsCount = 16;
 var strings = [];
 var thicknesses = [];
 for (var j = 0; j < stringsCount; j++) {
@@ -134,7 +134,7 @@ function drawString(stringArray, stringSpeed, w) {
     // }
     // ctx.stroke();
     ctx.beginPath();
-    ctx.strokeStyle = "hsla(" + startHue + ",70%,50%," + w * 0.1 + ")";
+    ctx.strokeStyle = "hsla(" + startHue + ",70%,50%," + w + ")";
     // ctx.lineWidth = w;
     ctx.moveTo(stringArray[0].x, stringArray[0].y);
     var dis = 0;
@@ -147,41 +147,41 @@ function drawString(stringArray, stringSpeed, w) {
             vy: stringArray[i].vy + 0
         };
 
-        var pt3 = { x: stringArray[i].x + 0, y: stringArray[i].y + 0 };
-        var O = 0.5;
-        // pt2.x +=
-        //   stringArray[i].vx * O +
-        //   (stringArray[i - 1].vx / 2) * 0.0 +
-        //   ((pt.x + pt3.x) / 2) * 0;
-        // pt2.y +=
-        //   stringArray[i].vy * O +
-        //   (stringArray[i - 1].vy / 2) * 0.0 +
-        //   ((pt.y + pt3.y) / 2) * 0;
-        var stringS = stringSpeed;
-        pt2.vx = stringArray[i].vx * (1 - stringS);
-        pt2.vy = stringArray[i].vy * (1 - stringS);
-        var m = P;
-        var len =
-            ((stringArray[i - 1].x - stringArray[i].x) ** 2 +
-                (stringArray[i - 1].y - stringArray[i].y) ** 2) **
-            0.5;
-        pt2.vx +=
-            (((stringArray[i - 1].x - stringArray[i].x) * stringS) / (len + 0.1)) *
-            (-dis + len) *
-            m;
-        pt2.vy +=
-            (((stringArray[i - 1].y - stringArray[i].y) * stringS) / (len + 0.1)) *
-            (-dis + len) *
-            m;
-        pt2.x += pt2.vx;
-        pt2.y += pt2.vy;
-        var pt2p = {
-            x: pt2.x * 2 - (pt.x + pt3.x) / 2,
-            y: pt2.y * 2 - (pt.y + pt3.y) / 2
-        };
-        pt2p = bezierReverseB(pt, pt2, pt3, 1.0 - P);
+        // var pt3 = { x: stringArray[i].x + 0, y: stringArray[i].y + 0 };
+        // var O = 0.5;
+        // // pt2.x +=
+        // //   stringArray[i].vx * O +
+        // //   (stringArray[i - 1].vx / 2) * 0.0 +
+        // //   ((pt.x + pt3.x) / 2) * 0;
+        // // pt2.y +=
+        // //   stringArray[i].vy * O +
+        // //   (stringArray[i - 1].vy / 2) * 0.0 +
+        // //   ((pt.y + pt3.y) / 2) * 0;
+        // var stringS = stringSpeed;
+        // pt2.vx = stringArray[i].vx * (1 - stringS);
+        // pt2.vy = stringArray[i].vy * (1 - stringS);
+        // var m = P;
+        // var len =
+        //     ((stringArray[i - 1].x - stringArray[i].x) ** 2 +
+        //         (stringArray[i - 1].y - stringArray[i].y) ** 2) **
+        //     0.5;
+        // pt2.vx +=
+        //     (((stringArray[i - 1].x - stringArray[i].x) * stringS) / (len + 0.1)) *
+        //     (-dis + len) *
+        //     m;
+        // pt2.vy +=
+        //     (((stringArray[i - 1].y - stringArray[i].y) * stringS) / (len + 0.1)) *
+        //     (-dis + len) *
+        //     m;
+        // pt2.x += pt2.vx;
+        // pt2.y += pt2.vy;
+        // var pt2p = {
+        //     x: pt2.x * 2 - (pt.x + pt3.x) / 2,
+        //     y: pt2.y * 2 - (pt.y + pt3.y) / 2
+        // };
+        // pt2p = bezierReverseB(pt, pt2, pt3, 1.0 - P);
         // ctx.lineTo(pt3.x, pt3.y);
-        ctx.beginPath();
+        //ctx.beginPath();
         // ctx.strokeStyle =
         //   "hsla(" +
         //   (startHue + ((hueChange * i) / stringArray.length) * 60) +
@@ -189,9 +189,9 @@ function drawString(stringArray, stringSpeed, w) {
         //   w +
         //   ")";
         // ctx.lineWidth = w;
-        ctx.moveTo(pt.x, pt.y);
-        ctx.quadraticCurveTo(pt2p.x, pt2p.y, pt3.x, pt3.y);
-        ctx.stroke();
+        //ctx.moveTo(pt.x, pt.y);
+        ctx.quadraticCurveTo(pt.x, pt.y, (pt.x + pt2.x) / 2, (pt.y + pt2.y) / 2);
+        //ctx.stroke();
         // ctx.lineTo(pt.x, pt.y);
         //var i = j;
 
@@ -293,7 +293,7 @@ function render() {
     }
     // ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = "source-over";
-    ctx.fillStyle = "rgba(0,0,0,0.1)";
+    ctx.fillStyle = "rgba(0,0,0,1)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = "lighter";
     ctx.lineWidth = s;
@@ -304,7 +304,7 @@ function render() {
         // moveString(strings[i], spd);
     }
     if (!noGo) {
-        window.setTimeout(render, 1000 / 60);
+        requestAnimationFrame(render);
     }
 }
 window.setInterval(function() {
